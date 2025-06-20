@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_medir">
+    app:startDestination="@+id/nav_mis_ecopesas">
+
+    <fragment
+        android:id="@+id/nav_mis_ecopesas"
+        android:name="com.example.ecopesa.ui.misecopesas.MisEcoPesasFragment"
+        android:label="@string/menu_mis_ecopesas"
+        tools:layout="@layout/fragment_mis_ecopesas" />
 
     <fragment
         android:id="@+id/nav_medir"
