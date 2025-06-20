@@ -78,7 +78,7 @@ public class MedirFragment extends Fragment {
         }
         executor.execute(() -> {
             try {
-                URL url = new URL("http://" + ipDispositivo + ":8080/medir");
+                URL url = new URL("http://" + ipDispositivo + ":8080/");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
                 con.getInputStream().close();

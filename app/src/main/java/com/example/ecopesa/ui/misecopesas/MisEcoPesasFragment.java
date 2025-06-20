@@ -47,7 +47,7 @@ public class MisEcoPesasFragment extends Fragment {
             try {
                 byte[] buf = new byte[256];
                 InetAddress group = InetAddress.getByName(multicastIp);
-                MulticastSocket socket = new MulticastSocket(4000);
+                MulticastSocket socket = new MulticastSocket(12345);
                 socket.joinGroup(group);
                 long start = System.currentTimeMillis();
                 while (System.currentTimeMillis() - start < 5000) {
