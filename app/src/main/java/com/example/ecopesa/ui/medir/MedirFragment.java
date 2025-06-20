@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mikhaellopez.circularprogressbar.CircularProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,7 +38,6 @@ public class MedirFragment extends Fragment {
         servidor = new SimpleHttpServer(numero ->
                 requireActivity().runOnUiThread(() -> {
                     binding.valorProgreso.setText(numero + " kg");
-                    binding.textoMedir.setText(numero + " kg");
                     try {
                         float valor = Float.parseFloat(numero.trim());
                         binding.progresoMedir.setProgressWithAnimation(valor);
