@@ -1,4 +1,9 @@
 escuela: "Escuela EcoPesa"
+maestra: "Prof. García"
 materia: "Medio Ambiente"
 grupo: "3A"
-alumnos: "Juan, María, Pedro"
+alumnos:
+  - Juan
+  - María
+  - Pedro
+  - Luis

@@ -36,7 +36,14 @@ public class MedirFragment extends Fragment {
         medirViewModel.getTexto().observe(getViewLifecycleOwner(), textView::setText);
 
         servidor = new SimpleHttpServer(numero ->
-                requireActivity().runOnUiThread(() -> binding.textoMedir.setText(numero + " kg")));
+                requireActivity().runOnUiThread(() -> {
+                    binding.textoMedir.setText(numero + " kg");
+                    try {
+                        int valor = Integer.parseInt(numero.trim());
+                        binding.progresoMedir.setProgress(valor, true);
+                    } catch (NumberFormatException ignored) {
+                    }
+                }));
         servidor.start();
         return root;
     }

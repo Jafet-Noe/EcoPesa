@@ -44,16 +44,33 @@ public class InformacionFragment extends Fragment {
         binding = null;
     }
 
-    private Map<String, String> leerYaml(String nombre) {
-        Map<String, String> datos = new HashMap<>();
+    private Map<String, Object> leerYaml(String nombre) {
+        Map<String, Object> datos = new HashMap<>();
+        String claveActual = null;
         try {
             InputStream is = requireContext().getAssets().open(nombre);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(":");
-                if (partes.length >= 2) {
-                    datos.put(partes[0].trim(), linea.substring(linea.indexOf(":") + 1).trim());
+                if (linea.trim().startsWith("-")) {
+                    if (claveActual != null) {
+                        java.util.List<String> lista = (java.util.List<String>) datos.get(claveActual);
+                        if (lista == null) {
+                            lista = new java.util.ArrayList<>();
+                            datos.put(claveActual, lista);
+                        }
+                        lista.add(linea.substring(linea.indexOf('-') + 1).trim());
+                    }
+                } else {
+                    String[] partes = linea.split(":", 2);
+                    if (partes.length >= 1) {
+                        claveActual = partes[0].trim();
+                        String valor = partes.length == 2 ? partes[1].trim() : "";
+                        if (!valor.isEmpty()) {
+                            datos.put(claveActual, valor);
+                            claveActual = null;
+                        }
+                    }
                 }
             }
             br.close();
