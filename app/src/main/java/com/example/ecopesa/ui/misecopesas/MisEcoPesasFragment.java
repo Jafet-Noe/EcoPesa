@@ -20,13 +20,11 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MisEcoPesasFragment extends Fragment {
 
     private FragmentMisEcopesasBinding binding;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private Thread searchThread;
     private final Map<String, String> dispositivos = new HashMap<>();
     private String multicastIp = "239.0.0.1";
 
@@ -42,7 +40,10 @@ public class MisEcoPesasFragment extends Fragment {
     private void buscarDispositivos() {
         binding.contenedorDispositivos.removeAllViews();
         dispositivos.clear();
-        executor.execute(() -> {
+        if (searchThread != null) {
+            searchThread.interrupt();
+        }
+        searchThread = new Thread(() -> {
             try {
                 byte[] buf = new byte[256];
                 InetAddress group = InetAddress.getByName(multicastIp);
@@ -70,6 +71,7 @@ public class MisEcoPesasFragment extends Fragment {
             } catch (IOException ignored) {
             }
         });
+        searchThread.start();
     }
 
     private void agregarBoton(String ip, String kg) {
@@ -92,7 +94,9 @@ public class MisEcoPesasFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (searchThread != null) {
+            searchThread.interrupt();
+        }
         binding = null;
-        executor.shutdownNow();
     }
 }
