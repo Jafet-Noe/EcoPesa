@@ -16,7 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InformacionFragment extends Fragment {
@@ -45,7 +45,7 @@ public class InformacionFragment extends Fragment {
     }
 
     private Map<String, Object> leerYaml(String nombre) {
-        Map<String, Object> datos = new HashMap<>();
+        Map<String, Object> datos = new LinkedHashMap<>();
         String claveActual = null;
         try {
             InputStream is = requireContext().getAssets().open(nombre);

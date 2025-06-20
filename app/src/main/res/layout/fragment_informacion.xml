@@ -10,7 +10,9 @@
         android:id="@+id/textoInformacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textIsSelectable="true" />
 </ScrollView>
