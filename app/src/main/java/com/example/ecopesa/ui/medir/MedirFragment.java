@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,14 +16,16 @@ import com.example.ecopesa.databinding.FragmentMedirBinding;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MedirFragment extends Fragment {
 
     private FragmentMedirBinding binding;
-    private SimpleHttpServer servidor;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private String ipDispositivo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,76 +38,63 @@ public class MedirFragment extends Fragment {
         final TextView valueView = binding.valorProgreso;
         medirViewModel.getTexto().observe(getViewLifecycleOwner(), valueView::setText);
 
-        servidor = new SimpleHttpServer(numero ->
-                requireActivity().runOnUiThread(() -> {
-                    binding.valorProgreso.setText(numero + " kg");
-                    try {
-                        int valor = Integer.parseInt(numero.trim());
-                        binding.progresoMedir.setProgressCompat(valor, true);
-                    } catch (NumberFormatException ignored) {
-                    }
-                }));
-        servidor.start();
+        if (getArguments() != null) {
+            ipDispositivo = getArguments().getString("ip");
+        }
+
+        binding.botonMedir.setOnClickListener(v -> solicitarMedida());
+        actualizarValor();
         return root;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (servidor != null) {
-            servidor.detener();
-        }
+        executor.shutdownNow();
         binding = null;
     }
 
-    private static class SimpleHttpServer extends Thread {
-        private boolean activo = true;
-        private ServerSocket socket;
-        private final OnNumeroListener listener;
-
-        interface OnNumeroListener {
-            void onNumero(String numero);
-        }
-
-        SimpleHttpServer(OnNumeroListener listener) {
-            this.listener = listener;
-        }
-
-        void detener() {
-            activo = false;
+    private void actualizarValor() {
+        if (ipDispositivo == null) return;
+        executor.execute(() -> {
             try {
-                if (socket != null) socket.close();
-            } catch (IOException ignored) {}
-        }
-
-        @Override
-        public void run() {
-            try {
-                socket = new ServerSocket(8080);
-                while (activo) {
-                    Socket cliente = socket.accept();
-                    BufferedReader br = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-                    String linea;
-                    int longitud = 0;
-                    while ((linea = br.readLine()) != null && !linea.isEmpty()) {
-                        if (linea.startsWith("Content-Length:")) {
-                            longitud = Integer.parseInt(linea.substring(15).trim());
-                        }
-                    }
-                    char[] cuerpo = new char[longitud];
-                    if (longitud > 0) {
-                        br.read(cuerpo, 0, longitud);
-                        String numero = new String(cuerpo).trim();
-                        listener.onNumero(numero);
-                    }
-                    PrintWriter pw = new PrintWriter(cliente.getOutputStream());
-                    pw.print("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nOK");
-                    pw.flush();
-                    cliente.close();
-                }
+                URL url = new URL("http://" + ipDispositivo + ":8080/");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String numero = br.readLine();
+                br.close();
+                requireActivity().runOnUiThread(() -> mostrarNumero(numero));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+    }
+
+    private void solicitarMedida() {
+        if (ipDispositivo == null) {
+            Toast.makeText(getContext(), "Sin dispositivo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        executor.execute(() -> {
+            try {
+                URL url = new URL("http://" + ipDispositivo + ":8080/medir");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.getInputStream().close();
+                actualizarValor();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void mostrarNumero(String numero) {
+        binding.valorProgreso.setText(numero + " kg");
+        try {
+            int valor = Integer.parseInt(numero.trim());
+            binding.progresoMedir.setProgressCompat(valor, true);
+        } catch (NumberFormatException ignored) {
         }
     }
 }
