@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -40,6 +42,11 @@ public class MedirFragment extends Fragment {
 
         if (getArguments() != null) {
             ipDispositivo = getArguments().getString("ip");
+            SharedPreferences prefs = requireContext().getSharedPreferences("devices", Context.MODE_PRIVATE);
+            prefs.edit().putString("selected_device", ipDispositivo).apply();
+        } else {
+            SharedPreferences prefs = requireContext().getSharedPreferences("devices", Context.MODE_PRIVATE);
+            ipDispositivo = prefs.getString("selected_device", null);
         }
 
         binding.botonMedir.setOnClickListener(v -> solicitarMedida());
