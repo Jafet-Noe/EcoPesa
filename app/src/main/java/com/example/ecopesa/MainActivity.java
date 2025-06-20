@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        navigationView = binding.navView;
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
-        navigationView = binding.navView;
         prefs = getSharedPreferences("devices", MODE_PRIVATE);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setMedirMenuVisible(boolean visible) {
+        if (navigationView == null) return;
         MenuItem item = navigationView.getMenu().findItem(R.id.nav_medir);
         if (item != null) item.setVisible(visible);
     }
