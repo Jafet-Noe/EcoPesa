@@ -10,7 +10,7 @@ public class MedirViewModel extends ViewModel {
 
     public MedirViewModel() {
         texto = new MutableLiveData<>();
-        texto.setValue("Esperando valor...");
+        texto.setValue("0 kg");
     }
 
     public LiveData<String> getTexto() {

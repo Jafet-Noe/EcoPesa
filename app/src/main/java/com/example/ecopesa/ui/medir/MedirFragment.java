@@ -32,12 +32,12 @@ public class MedirFragment extends Fragment {
         binding = FragmentMedirBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textoMedir;
-        medirViewModel.getTexto().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView valueView = binding.valorProgreso;
+        medirViewModel.getTexto().observe(getViewLifecycleOwner(), valueView::setText);
 
         servidor = new SimpleHttpServer(numero ->
                 requireActivity().runOnUiThread(() -> {
-                    binding.textoMedir.setText(numero + " kg");
+                    binding.valorProgreso.setText(numero + " kg");
                     try {
                         int valor = Integer.parseInt(numero.trim());
                         binding.progresoMedir.setProgressCompat(valor, true);
