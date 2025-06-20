@@ -20,15 +20,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progresoMedir"
+    <FrameLayout
+        android:id="@+id/progresoContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:max="100"
-        app:indicatorSize="120dp"
         app:layout_constraintTop_toBottomOf="@id/textoMedir"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.mikhaellopez.circularprogressbar.CircularProgressBar
+            android:id="@+id/progresoMedir"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:progressMax="100"
+            app:roundBorder="true"
+            app:progressBarWidth="16dp"
+            app:backgroundProgressBarWidth="16dp"
+            app:backgroundProgressBarColor="@color/purple_200"
+            app:progressBarColor="@color/teal_700" />
+
+        <TextView
+            android:id="@+id/valorProgreso"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="0 kg"
+            android:textSize="24sp" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
