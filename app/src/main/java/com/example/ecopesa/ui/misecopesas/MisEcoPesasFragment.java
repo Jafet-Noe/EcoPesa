@@ -52,6 +52,9 @@ public class MisEcoPesasFragment extends Fragment {
         binding.contenedorDispositivos.removeAllViews();
         dispositivos.clear();
         cargarDispositivosGuardados();
+        // ensure Medir menu visibility reflects current selection
+        ((MainActivity) requireActivity()).setMedirMenuVisible(
+                prefs.contains("selected_device"));
         if (searchThread != null) {
             searchThread.interrupt();
         }
