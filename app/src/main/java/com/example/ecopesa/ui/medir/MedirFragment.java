@@ -40,7 +40,7 @@ public class MedirFragment extends Fragment {
                     binding.valorProgreso.setText(numero + " kg");
                     try {
                         int valor = Integer.parseInt(numero.trim());
-                        binding.progresoMedir.setProgressWithAnimation(valor);
+                        binding.progresoMedir.setProgressCompat(valor, true);
                     } catch (NumberFormatException ignored) {
                     }
                 }));
