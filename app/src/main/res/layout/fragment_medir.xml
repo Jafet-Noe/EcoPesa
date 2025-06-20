@@ -15,13 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
+        <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/progresoMedir"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:max="100"
-            app:trackThickness="16dp"
-            app:indicatorSize="200dp" />
+            app:cpb_progressMax="100"
+            app:cpb_progressBarWidth="16dp"
+            app:cpb_backgroundProgressBarWidth="16dp"
+            app:cpb_progressBarColor="@color/purple_500"
+            app:cpb_backgroundProgressBarColor="#33000000"
+            app:cpb_roundBorder="true" />
 
         <TextView
             android:id="@+id/valorProgreso"
