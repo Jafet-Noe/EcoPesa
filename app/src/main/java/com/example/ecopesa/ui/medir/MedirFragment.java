@@ -39,8 +39,8 @@ public class MedirFragment extends Fragment {
                 requireActivity().runOnUiThread(() -> {
                     binding.valorProgreso.setText(numero + " kg");
                     try {
-                        float valor = Float.parseFloat(numero.trim());
-                        binding.progresoMedir.setProgressWithAnimation(valor);
+                        int valor = Integer.parseInt(numero.trim());
+                        binding.progresoMedir.setProgressCompat(valor, true);
                     } catch (NumberFormatException ignored) {
                     }
                 }));
