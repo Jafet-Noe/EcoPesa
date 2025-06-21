@@ -9,11 +9,6 @@
             android:icon="@drawable/ic_ecopesa"
             android:title="@string/menu_mis_ecopesas" />
         <item
-            android:id="@+id/nav_medir"
-            android:icon="@drawable/ic_ecopesa"
-            android:title="@string/menu_medir"
-            android:visible="false" />
-        <item
             android:id="@+id/nav_informacion"
             android:icon="@drawable/ic_ecopesa"
             android:title="@string/menu_informacion" />
