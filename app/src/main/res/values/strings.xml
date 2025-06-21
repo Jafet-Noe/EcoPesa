@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Encabezado de navegación</string>
     <string name="action_settings">Configuración</string>
 
-    <string name="menu_medir">Medir</string>
+    <string name="menu_medir">Mi EcoPesa</string>
     <string name="menu_informacion">Información</string>
     <string name="buscar">Buscar</string>
     <string name="menu_mis_ecopesas">Mis EcoPesas</string>
