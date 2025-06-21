@@ -41,7 +41,7 @@
         android:id="@+id/botonMedir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/menu_medir"
+        android:text="@string/medir"
         app:layout_constraintTop_toBottomOf="@id/progresoContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
