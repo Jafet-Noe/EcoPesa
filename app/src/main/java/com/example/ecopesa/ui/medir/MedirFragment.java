@@ -51,7 +51,6 @@ public class MedirFragment extends Fragment {
         nombreDispositivo = prefs.getString(ipDispositivo, ipDispositivo);
         requireActivity().setTitle(nombreDispositivo);
 
-        binding.botonMedir.setText(nombreDispositivo);
         binding.botonMedir.setAllCaps(false);
         binding.botonMedir.setOnClickListener(v -> solicitarMedida());
         actualizarValor();
