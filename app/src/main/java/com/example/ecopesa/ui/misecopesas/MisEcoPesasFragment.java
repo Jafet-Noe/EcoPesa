@@ -70,10 +70,11 @@ public class MisEcoPesasFragment extends Fragment {
                             String kg = parts[0].trim();
                             String ip = parts[1].trim();
                             if (!dispositivos.containsKey(ip)) {
+                                String defaultName = "EcoPesa" + kg;
                                 if (!prefs.contains(ip)) {
-                                    prefs.edit().putString(ip, ip).apply();
+                                    prefs.edit().putString(ip, defaultName).apply();
                                 }
-                                String name = prefs.getString(ip, ip);
+                                String name = prefs.getString(ip, defaultName);
                                 dispositivos.put(ip, name);
                                 requireActivity().runOnUiThread(() -> agregarBoton(ip, name));
                             }
