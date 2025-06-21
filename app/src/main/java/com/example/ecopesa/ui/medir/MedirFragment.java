@@ -28,6 +28,7 @@ public class MedirFragment extends Fragment {
     private FragmentMedirBinding binding;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private String ipDispositivo;
+    private String nombreDispositivo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,15 +41,18 @@ public class MedirFragment extends Fragment {
         final TextView valueView = binding.valorProgreso;
         medirViewModel.getTexto().observe(getViewLifecycleOwner(), valueView::setText);
 
+        SharedPreferences prefs = requireContext().getSharedPreferences("devices", Context.MODE_PRIVATE);
         if (getArguments() != null) {
             ipDispositivo = getArguments().getString("ip");
-            SharedPreferences prefs = requireContext().getSharedPreferences("devices", Context.MODE_PRIVATE);
             prefs.edit().putString("selected_device", ipDispositivo).apply();
         } else {
-            SharedPreferences prefs = requireContext().getSharedPreferences("devices", Context.MODE_PRIVATE);
             ipDispositivo = prefs.getString("selected_device", null);
         }
+        nombreDispositivo = prefs.getString(ipDispositivo, ipDispositivo);
+        requireActivity().setTitle(nombreDispositivo);
 
+        binding.botonMedir.setText(nombreDispositivo);
+        binding.botonMedir.setAllCaps(false);
         binding.botonMedir.setOnClickListener(v -> solicitarMedida());
         actualizarValor();
         return root;

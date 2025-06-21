@@ -65,12 +65,11 @@ public class MisEcoPesasFragment extends Fragment {
                     socket.receive(packet);
                     String msg = new String(packet.getData(), 0, packet.getLength()).trim();
                     if (msg.startsWith("EcoPesa")) {
-                        String[] parts = msg.substring(7).split("-");
+                        String[] parts = msg.split("-");
                         if (parts.length >= 2) {
-                            String kg = parts[0].trim();
+                            String defaultName = parts[0].trim();
                             String ip = parts[1].trim();
                             if (!dispositivos.containsKey(ip)) {
-                                String defaultName = "EcoPesa" + kg;
                                 if (!prefs.contains(ip)) {
                                     prefs.edit().putString(ip, defaultName).apply();
                                 }
@@ -102,6 +101,7 @@ public class MisEcoPesasFragment extends Fragment {
     private void agregarBoton(String ip, String nombre) {
         Button btn = new Button(requireContext());
         btn.setText(nombre);
+        btn.setAllCaps(false);
         btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_ecopesa, 0, 0, 0);
         btn.setOnClickListener(v -> {
             Bundle args = new Bundle();
