@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.ecopesa.R;
-import com.example.ecopesa.MainActivity;
 import com.example.ecopesa.databinding.FragmentMisEcopesasBinding;
 
 import java.io.IOException;
@@ -44,7 +43,6 @@ public class MisEcoPesasFragment extends Fragment {
         binding.botonBuscar.setOnClickListener(v -> buscarDispositivos());
 
         cargarDispositivosGuardados();
-        ((MainActivity) requireActivity()).setMedirMenuVisible(prefs.contains("selected_device"));
         return root;
     }
 
@@ -52,9 +50,6 @@ public class MisEcoPesasFragment extends Fragment {
         binding.contenedorDispositivos.removeAllViews();
         dispositivos.clear();
         cargarDispositivosGuardados();
-        // ensure Medir menu visibility reflects current selection
-        ((MainActivity) requireActivity()).setMedirMenuVisible(
-                prefs.contains("selected_device"));
         if (searchThread != null) {
             searchThread.interrupt();
         }
@@ -111,7 +106,6 @@ public class MisEcoPesasFragment extends Fragment {
             Bundle args = new Bundle();
             args.putString("ip", ip);
             prefs.edit().putString("selected_device", ip).apply();
-            ((MainActivity) requireActivity()).setMedirMenuVisible(true);
             Navigation.findNavController(v).navigate(R.id.nav_medir, args);
         });
         btn.setOnLongClickListener(v -> {
@@ -147,7 +141,6 @@ public class MisEcoPesasFragment extends Fragment {
                         prefs.edit().remove(ip).apply();
                         if (ip.equals(prefs.getString("selected_device", null))) {
                             prefs.edit().remove("selected_device").apply();
-                            ((MainActivity) requireActivity()).setMedirMenuVisible(false);
                         }
                     }
                 })

@@ -2,11 +2,7 @@ package com.example.ecopesa;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.view.MenuItem;
-import android.content.SharedPreferences;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -23,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private NavigationView navigationView;
-    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +31,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarMain.toolbar);
 
         DrawerLayout drawer = binding.drawerLayout;
-        prefs = getSharedPreferences("devices", MODE_PRIVATE);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_mis_ecopesas, R.id.nav_informacion, R.id.nav_medir)
+                R.id.nav_mis_ecopesas, R.id.nav_informacion)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        setMedirMenuVisible(prefs.contains("selected_device"));
     }
 
     @Override
@@ -63,9 +56,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void setMedirMenuVisible(boolean visible) {
-        if (navigationView == null) return;
-        MenuItem item = navigationView.getMenu().findItem(R.id.nav_medir);
-        if (item != null) item.setVisible(visible);
-    }
 }
