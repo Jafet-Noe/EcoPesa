@@ -69,14 +69,23 @@ public class MisEcoPesasFragment extends Fragment {
                         if (parts.length >= 2) {
                             String defaultName = parts[0].trim();
                             String ip = parts[1].trim();
-                            if (!dispositivos.containsKey(ip)) {
-                                if (!prefs.contains(ip)) {
-                                    prefs.edit().putString(ip, defaultName).apply();
+                            int max = 100;
+                            String digits = parts[0].substring("EcoPesa".length());
+                            if (!digits.isEmpty()) {
+                                try {
+                                    max = Integer.parseInt(digits.trim());
+                                } catch (NumberFormatException ignored) {
                                 }
+                            }
+
+                            if (!dispositivos.containsKey(ip)) {
                                 String name = prefs.getString(ip, defaultName);
                                 dispositivos.put(ip, name);
                                 requireActivity().runOnUiThread(() -> agregarBoton(ip, name));
                             }
+                            prefs.edit().putString(ip, defaultName)
+                                    .putInt(ip + "_max", max)
+                                    .apply();
                         }
                     }
                 }
@@ -90,8 +99,9 @@ public class MisEcoPesasFragment extends Fragment {
 
     private void cargarDispositivosGuardados() {
         for (Map.Entry<String, ?> entry : prefs.getAll().entrySet()) {
-            if ("selected_device".equals(entry.getKey())) continue;
-            String ip = entry.getKey();
+            String key = entry.getKey();
+            if ("selected_device".equals(key) || key.endsWith("_max")) continue;
+            String ip = key;
             String name = entry.getValue().toString();
             dispositivos.put(ip, name);
             agregarBoton(ip, name);
