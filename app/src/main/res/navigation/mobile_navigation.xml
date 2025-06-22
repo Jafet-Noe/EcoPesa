@@ -23,4 +23,10 @@
         android:label="@string/menu_informacion"
         tools:layout="@layout/fragment_informacion" />
 
+    <fragment
+        android:id="@+id/nav_configuracion"
+        android:name="com.example.ecopesa.ui.configuracion.ConfiguracionFragment"
+        android:label="@string/action_settings"
+        tools:layout="@layout/fragment_configuracion" />
+
 </navigation>

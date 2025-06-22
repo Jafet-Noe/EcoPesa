@@ -15,4 +15,7 @@
     <string name="delete">Eliminar</string>
     <string name="device_name_hint">Nombre del dispositivo</string>
     <string name="medir">Medir</string>
+    <string name="guardar">Guardar</string>
+    <string name="factor_hint">Factor</string>
+    <string name="reset_factory">Resetar a Fabrica</string>
 </resources>

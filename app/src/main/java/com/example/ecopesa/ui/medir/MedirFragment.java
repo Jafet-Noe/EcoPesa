@@ -29,6 +29,7 @@ public class MedirFragment extends Fragment {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private String ipDispositivo;
     private String nombreDispositivo;
+    private static final float DEFAULT_FACTOR = 0.006872454162414f;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -100,11 +101,22 @@ public class MedirFragment extends Fragment {
     }
 
     private void mostrarNumero(String numero) {
-        binding.valorProgreso.setText(numero + " kg");
+        SharedPreferences prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        double factor = prefs.getFloat("factor", DEFAULT_FACTOR);
         try {
-            int valor = Integer.parseInt(numero.trim());
-            binding.progresoMedir.setProgressCompat(valor, true);
-        } catch (NumberFormatException ignored) {
+            double valor = Double.parseDouble(numero.trim());
+            double resultado = valor * factor;
+            int progreso = (int)resultado/1000;
+            String texto = null;
+            if(resultado < 1000){
+                texto = String.format("%.2f g", resultado);
+            }else{
+                texto = String.format("%.2f Kg", resultado);
+            }
+            binding.valorProgreso.setText(texto);
+            binding.progresoMedir.setProgressCompat((int)progreso, true);
+        } catch (NumberFormatException e) {
+            binding.valorProgreso.setText(numero + " kg");
         }
     }
 }
