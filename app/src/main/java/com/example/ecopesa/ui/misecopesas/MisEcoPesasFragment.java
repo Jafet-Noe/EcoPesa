@@ -69,9 +69,19 @@ public class MisEcoPesasFragment extends Fragment {
                         if (parts.length >= 2) {
                             String defaultName = parts[0].trim();
                             String ip = parts[1].trim();
+                            int max = 100;
+                            if (parts.length >= 3) {
+                                try {
+                                    max = Integer.parseInt(parts[2].trim());
+                                } catch (NumberFormatException ignored) {
+                                }
+                            }
                             if (!dispositivos.containsKey(ip)) {
                                 if (!prefs.contains(ip)) {
                                     prefs.edit().putString(ip, defaultName).apply();
+                                }
+                                if (!prefs.contains(ip + "_max")) {
+                                    prefs.edit().putInt(ip + "_max", max).apply();
                                 }
                                 String name = prefs.getString(ip, defaultName);
                                 dispositivos.put(ip, name);
@@ -90,8 +100,9 @@ public class MisEcoPesasFragment extends Fragment {
 
     private void cargarDispositivosGuardados() {
         for (Map.Entry<String, ?> entry : prefs.getAll().entrySet()) {
-            if ("selected_device".equals(entry.getKey())) continue;
-            String ip = entry.getKey();
+            String key = entry.getKey();
+            if ("selected_device".equals(key) || key.endsWith("_max")) continue;
+            String ip = key;
             String name = entry.getValue().toString();
             dispositivos.put(ip, name);
             agregarBoton(ip, name);

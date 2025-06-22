@@ -50,6 +50,8 @@ public class MedirFragment extends Fragment {
             ipDispositivo = prefs.getString("selected_device", null);
         }
         nombreDispositivo = prefs.getString(ipDispositivo, ipDispositivo);
+        int maxKg = prefs.getInt(ipDispositivo + "_max", 100);
+        binding.progresoMedir.setMax(maxKg);
         requireActivity().setTitle(nombreDispositivo);
 
         binding.botonMedir.setAllCaps(false);
