@@ -111,7 +111,7 @@ public class MedirFragment extends Fragment {
             if(resultado < 1000){
                 texto = String.format("%.2f g", resultado);
             }else{
-                texto = String.format("%.2f Kg", progreso);
+                texto = String.format("%.2f Kg", resultado/(double)1000);
             }
             binding.valorProgreso.setText(texto);
             binding.progresoMedir.setProgressCompat((int)progreso, true);
