@@ -70,15 +70,14 @@ public class MisEcoPesasFragment extends Fragment {
                             String defaultName = parts[0].trim();
                             String ip = parts[1].trim();
                             int max = 100;
-                            if (parts.length >= 3) {
-                                String digits = parts[2].replaceAll("\\D+", "");
-                                if (!digits.isEmpty()) {
-                                    try {
-                                        max = Integer.parseInt(digits);
-                                    } catch (NumberFormatException ignored) {
-                                    }
+                            String digits = parts[0].substring("EcoPesa".length());
+                            if (!digits.isEmpty()) {
+                                try {
+                                    max = Integer.parseInt(digits.trim());
+                                } catch (NumberFormatException ignored) {
                                 }
                             }
+
                             if (!dispositivos.containsKey(ip)) {
                                 String name = prefs.getString(ip, defaultName);
                                 dispositivos.put(ip, name);
