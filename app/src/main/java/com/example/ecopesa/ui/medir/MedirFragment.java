@@ -102,12 +102,19 @@ public class MedirFragment extends Fragment {
 
     private void mostrarNumero(String numero) {
         SharedPreferences prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        float factor = prefs.getFloat("factor", DEFAULT_FACTOR);
+        double factor = prefs.getFloat("factor", DEFAULT_FACTOR);
         try {
-            int valor = Integer.parseInt(numero.trim());
+            double valor = Double.parseDouble(numero.trim());
             double resultado = valor * factor;
-            binding.valorProgreso.setText(String.format("%.2f kg", resultado));
-            binding.progresoMedir.setProgressCompat(valor, true);
+            int progreso = (int)resultado/1000;
+            String texto = null;
+            if(resultado < 1000){
+                texto = String.format("%.2f g", resultado);
+            }else{
+                texto = String.format("%.2f Kg", resultado);
+            }
+            binding.valorProgreso.setText(texto);
+            binding.progresoMedir.setProgressCompat((int)progreso, true);
         } catch (NumberFormatException e) {
             binding.valorProgreso.setText(numero + " kg");
         }
