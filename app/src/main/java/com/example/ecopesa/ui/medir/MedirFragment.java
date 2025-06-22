@@ -111,12 +111,12 @@ public class MedirFragment extends Fragment {
             if(resultado < 1000){
                 texto = String.format("%.2f g", resultado);
             }else{
-                texto = String.format("%.2f Kg", resultado);
+                texto = String.format("%.2f Kg", progreso);
             }
             binding.valorProgreso.setText(texto);
             binding.progresoMedir.setProgressCompat((int)progreso, true);
         } catch (NumberFormatException e) {
-            binding.valorProgreso.setText(numero + " kg");
+            binding.valorProgreso.setText("Error con numero "+numero);
         }
     }
 }
