@@ -71,22 +71,22 @@ public class MisEcoPesasFragment extends Fragment {
                             String ip = parts[1].trim();
                             int max = 100;
                             if (parts.length >= 3) {
-                                try {
-                                    max = Integer.parseInt(parts[2].trim());
-                                } catch (NumberFormatException ignored) {
+                                String digits = parts[2].replaceAll("\\D+", "");
+                                if (!digits.isEmpty()) {
+                                    try {
+                                        max = Integer.parseInt(digits);
+                                    } catch (NumberFormatException ignored) {
+                                    }
                                 }
                             }
                             if (!dispositivos.containsKey(ip)) {
-                                if (!prefs.contains(ip)) {
-                                    prefs.edit().putString(ip, defaultName).apply();
-                                }
-                                if (!prefs.contains(ip + "_max")) {
-                                    prefs.edit().putInt(ip + "_max", max).apply();
-                                }
                                 String name = prefs.getString(ip, defaultName);
                                 dispositivos.put(ip, name);
                                 requireActivity().runOnUiThread(() -> agregarBoton(ip, name));
                             }
+                            prefs.edit().putString(ip, defaultName)
+                                    .putInt(ip + "_max", max)
+                                    .apply();
                         }
                     }
                 }

@@ -49,9 +49,14 @@ public class MedirFragment extends Fragment {
         } else {
             ipDispositivo = prefs.getString("selected_device", null);
         }
-        nombreDispositivo = prefs.getString(ipDispositivo, ipDispositivo);
-        int maxKg = prefs.getInt(ipDispositivo + "_max", 100);
-        binding.progresoMedir.setMax(maxKg);
+        if (ipDispositivo != null) {
+            nombreDispositivo = prefs.getString(ipDispositivo, ipDispositivo);
+            int maxKg = prefs.getInt(ipDispositivo + "_max", 100);
+            binding.progresoMedir.setMax(maxKg);
+        } else {
+            nombreDispositivo = "";
+            binding.progresoMedir.setMax(100);
+        }
         requireActivity().setTitle(nombreDispositivo);
 
         binding.botonMedir.setAllCaps(false);
