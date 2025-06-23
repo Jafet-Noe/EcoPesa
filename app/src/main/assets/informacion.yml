@@ -1,8 +1,8 @@
-escuela: "Cbtis 227"
-maestra: "Prof. Cirila Avila Castillo"
-materia: "Conservacion De La Energia y sus Interacciones con la Materia "
-grupo: "2PBM"
-alumnos:
+Escuela: "Cbtis 227"
+Maestra: "Prof. Cirila Avila Castillo"
+Materia: "Conservacion De La Energia y sus Interacciones con la Materia "
+Grupo: "2PBM"
+Alumnos:
   - AMADOR NAVA JAFET NOE
   - CASTILLO CHIMAL RENATA
   - FLORES GARCIA BRAULIO GAEL
